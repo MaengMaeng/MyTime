@@ -2,6 +2,7 @@
     "manifest_version": 2,
     "name": "MyTime",
     "version": "1.0.0",
+	"description" : "오늘 무엇을 했는지 기록해보세요.",
 
     "browser_action": {
         "default_popup": "index.html"
