@@ -71,7 +71,46 @@ const app = () => {
         return header;
     }
 
+    const makeBody = (elements) => {
+        const bodyContainer = document.createElement('div');
+        bodyContainer.classList.add('body-container');
+        
+        const dayOfTheWeek = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
+
+        for(let i = 0; i < 7; i++){
+            const dayContainer = document.createElement('div');
+            dayContainer.classList.add('day-container');
+
+            const dayOfTheWeekContainer = document.createElement('div');
+            dayOfTheWeekContainer.classList.add('day-of-week-container');
+
+            const dayOfTheWeekText = document.createElement('span');
+            dayOfTheWeekText.classList.add('day-of-week-text');
+            dayOfTheWeekText.innerHTML = dayOfTheWeek[i];
+
+            dayOfTheWeekContainer.appendChild(dayOfTheWeekText);
+
+            const timeContainer = document.createElement('div');
+            timeContainer.classList.add('time-container');
+
+            for(let j = 0; j < 24; j++){
+                const time = document.createElement('div');
+                time.classList.add('time');
+    
+                timeContainer.appendChild(time);
+            }
+
+            dayContainer.appendChild(dayOfTheWeekContainer);
+            dayContainer.appendChild(timeContainer);
+
+            bodyContainer.appendChild(dayContainer);
+        }
+
+        return bodyContainer;
+    }
+
     target.appendChild(makeHeader(elements));
+    target.appendChild(makeBody(elements));
 }
 
 app();

@@ -56,3 +56,43 @@ button{
 .settings-container{
     width: 25%;
 }
+
+.body-container{
+    background-color: white;
+}
+
+.day-container{
+    height: 40px;
+    display: inline-block;
+}
+
+.day-of-week-container,
+.time-container{
+    display: inline-block;
+    line-height: 40px;
+}
+
+.day-of-week-container{
+    width: 60px;
+    height: 40px;
+    text-align: center;
+}
+
+.day-of-week-text{
+    font-weight: bold;
+}
+
+.time-container{
+    vertical-align: middle;
+}
+
+.time{
+    width: 16px;
+    height: 16px;
+    margin: 0px 2px 0px 2px;
+    background-color: #ebedf0;
+    border:1px solid #DDD;
+    box-shadow: 0 0 0 1px rgba(27,31,35,.04);
+    border-radius: 2px;
+    display: inline-block;
+}
