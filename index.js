@@ -100,8 +100,21 @@ const app = () => {
                 timeContainer.appendChild(time);
             }
 
+            const hourDividerContainer = document.createElement('div');
+            hourDividerContainer.classList.add('hour-divider-container');
+
+            for(let j = 0; j <= 24; j++){
+
+                const hourDivider = document.createElement('div');
+                hourDivider.classList.add('hour-divider');
+                hourDivider.innerHTML = j;
+
+                hourDividerContainer.appendChild(hourDivider);
+            }
+
             dayContainer.appendChild(dayOfTheWeekContainer);
             dayContainer.appendChild(timeContainer);
+            dayContainer.appendChild(hourDividerContainer);
 
             bodyContainer.appendChild(dayContainer);
         }
