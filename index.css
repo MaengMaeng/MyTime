@@ -7,8 +7,8 @@ body{
 
     margin: 0;
     padding: 0;
-
-    width: 600px;
+    padding-bottom: 8px;
+    width: 608px;
 }
 
 div{
@@ -16,24 +16,26 @@ div{
     padding: 0;
 }
 
+.header{
+    width: 100%;
+
+    background-color: white;
+    border-bottom: 1px solid black;
+
+}
+
 button{
     background: rgba(0,0,0,0);
     width: 40px;
     height: 40px;
     font-weight: bold;
-    border: #000 2px solid;
+    border: none;
 
     padding: 0px;
     margin: 0px;
 
     display: inline-block;
     outline: none;
-}
-
-.header{
-    width: 100%;
-
-    background-color: darkseagreen;
 }
 
 .year-container,
@@ -43,18 +45,20 @@ button{
     display: inline-block;
     text-align:center;
     font-size:24px;
+    vertical-align: middle;
 }
 
 .year-container{
-    width: 25%;
+    width: 20%;
 }
 
 .week-container{
-    width: 50%;
+    width: 60%;
 }
 
 .settings-container{
-    width: 25%;
+    margin-left: 10%;
+    width: 10%;
 }
 
 .body-container{
@@ -62,7 +66,7 @@ button{
 }
 
 .day-container{
-    height: 40px;
+    width: 100%;
     display: inline-block;
 }
 
@@ -74,7 +78,7 @@ button{
 
 .day-of-week-container{
     width: 60px;
-    height: 40px;
+    height: 30px;
     text-align: center;
 }
 
@@ -95,4 +99,17 @@ button{
     box-shadow: 0 0 0 1px rgba(27,31,35,.04);
     border-radius: 2px;
     display: inline-block;
+}
+
+.hour-divider-container{
+    padding-left: 49px;
+    display: inline-block;
+
+    font-size: 10px;
+}
+
+.hour-divider{
+    display: inline-block;
+    width:22px;
+    text-align: center;
 }
