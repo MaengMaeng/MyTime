@@ -84,11 +84,21 @@ const app = () => {
             const dayOfTheWeekContainer = document.createElement('div');
             dayOfTheWeekContainer.classList.add('day-of-week-container');
 
-            const dayOfTheWeekText = document.createElement('span');
+            const dayOfTheWeekText = document.createElement('div');
             dayOfTheWeekText.classList.add('day-of-week-text');
+            if(i === 0) dayOfTheWeekText.classList.add('sun');
+            if(i === 6) dayOfTheWeekText.classList.add('sat');
             dayOfTheWeekText.innerHTML = dayOfTheWeek[i];
 
+            const dateText = document.createElement('div');
+            dateText.innerHTML = `09.${(27 + i)%29 + 1}`;
+            dateText.classList.add('date-text');
+
             dayOfTheWeekContainer.appendChild(dayOfTheWeekText);
+            dayOfTheWeekContainer.appendChild(dateText);
+
+            const timeAndDividerContainer = document.createElement('div');
+            timeAndDividerContainer.classList.add('time-and-divider-container');
 
             const timeContainer = document.createElement('div');
             timeContainer.classList.add('time-container');
@@ -104,7 +114,6 @@ const app = () => {
             hourDividerContainer.classList.add('hour-divider-container');
 
             for(let j = 0; j <= 24; j++){
-
                 const hourDivider = document.createElement('div');
                 hourDivider.classList.add('hour-divider');
                 hourDivider.innerHTML = j;
@@ -112,9 +121,12 @@ const app = () => {
                 hourDividerContainer.appendChild(hourDivider);
             }
 
+            timeAndDividerContainer.appendChild(timeContainer);
+            timeAndDividerContainer.appendChild(hourDividerContainer);
+
             dayContainer.appendChild(dayOfTheWeekContainer);
-            dayContainer.appendChild(timeContainer);
-            dayContainer.appendChild(hourDividerContainer);
+
+            dayContainer.appendChild(timeAndDividerContainer);
 
             bodyContainer.appendChild(dayContainer);
         }
