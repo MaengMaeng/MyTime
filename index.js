@@ -59,7 +59,7 @@ const app = () => {
 
         const settingsButton = document.createElement('button');
         settingsButton.classList.add('settings-button');
-        settingsButton.innerHTML = '≡';
+        settingsButton.innerHTML = '<img src="./images/black-settings-button.png" />'
         elements.settingsButton = settingsButton;
 
         settingsContainer.appendChild(settingsButton);
