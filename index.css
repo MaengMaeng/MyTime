@@ -59,6 +59,11 @@ button{
     width: 10%;
 }
 
+.settings-container img{
+    width: 24px;
+    height: 24px;
+}
+
 .body-container{
     background-color: white;
 }
