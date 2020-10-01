@@ -2,48 +2,35 @@ const app = () => {
     const target = document.getElementById('app');
     const elements = {};
     elements.target = target;
+    const thisWeek = getWeek();
 
-    const makeHeader = (elements) => {
-        const header = document.createElement('div');
-        header.classList.add('header');
+    const initHeader = (elements) => {
+        const header = createElement('div', 'header');
         elements.header = header;
 
-        const yearContainer = document.createElement('div');
-        yearContainer.classList.add('year-container');
+        const yearContainer = createElement('div', 'year-container');
 
-        const year = document.createElement('span');
-        year.classList.add('year');
-        year.innerHTML = '2020';
+        const year = createElement('span', 'year', '2020');
         elements.year = year;
 
         yearContainer.appendChild(year);
     
-        const weekContainer = document.createElement('div');
-        weekContainer.classList.add('week-container');
+        const weekContainer = createElement('div', 'week-container');
 
-        const prevButton = document.createElement('button');
-        prevButton.classList.add('prev-button');
-        prevButton.innerHTML = '◀';
+        const prevButton = createElement('button', 'prev-button', '◀');
         elements.prevButton = prevButton;
 
-        const nextButton = document.createElement('button');
-        nextButton.classList.add('next-button');
-        nextButton.innerHTML = '▶';
+        const nextButton = createElement('button', 'next-button', '▶');
         elements.nextButton = nextButton;
 
-        const week = document.createElement('div');
-        week.classList.add('week');
+        const week = createElement('div', 'week');
 
-        const startWeek = document.createElement('span');
-        startWeek.classList.add('start-week');
-        startWeek.innerHTML = '09.27';
+        const startWeek = createElement('span', 'start-week', thisWeek[0]);
         elements.startWeek = startWeek;
 
-        const divider = document.createElement('span');
-        divider.innerHTML = '~';
-        const endWeek = document.createElement('span');
-        endWeek.classList.add('end-week');
-        endWeek.innerHTML = '10.08';
+        const divider = createElement('span', null, '~');
+
+        const endWeek = createElement('span', 'end-week', thisWeek[6]);
         elements.endWeek = endWeek;
 
         week.appendChild(startWeek);
@@ -54,12 +41,9 @@ const app = () => {
         weekContainer.appendChild(week);
         weekContainer.appendChild(nextButton);
     
-        const settingsContainer = document.createElement('div');
-        settingsContainer.classList.add('settings-container');
+        const settingsContainer = createElement('div', 'settings-container');
 
-        const settingsButton = document.createElement('button');
-        settingsButton.classList.add('settings-button');
-        settingsButton.innerHTML = '<img src="./images/black-settings-button.png" />'
+        const settingsButton = createElement('button', 'settings-button', '<img src="./images/black-settings-button.png" />');
         elements.settingsButton = settingsButton;
 
         settingsContainer.appendChild(settingsButton);
@@ -71,54 +55,33 @@ const app = () => {
         return header;
     }
 
-    const makeBody = (elements) => {
-        const bodyContainer = document.createElement('div');
-        bodyContainer.classList.add('body-container');
-        
-        const dayOfTheWeek = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
+    const initBody = (elements) => {
+        const bodyContainer = createElement('div', 'body-container');
 
         for(let i = 0; i < 7; i++){
-            const dayContainer = document.createElement('div');
-            dayContainer.classList.add('day-container');
+            const dayContainer = createElement('div', 'day-container');
 
-            const dayOfTheWeekContainer = document.createElement('div');
-            dayOfTheWeekContainer.classList.add('day-of-week-container');
+            const dayOfTheWeekContainer = createElement('div', 'day-of-week-container')
 
-            const dayOfTheWeekText = document.createElement('div');
-            dayOfTheWeekText.classList.add('day-of-week-text');
-            if(i === 0) dayOfTheWeekText.classList.add('sun');
-            if(i === 6) dayOfTheWeekText.classList.add('sat');
-            dayOfTheWeekText.innerHTML = dayOfTheWeek[i];
+            const dayOfTheWeekText = createElement('div', i === 0 ? 'sun' : i === 6 ? 'sat' : null, dayOfTheWeek[i]);
 
-            const dateText = document.createElement('div');
-            dateText.innerHTML = `09.${(27 + i)%29 + 1}`;
-            dateText.classList.add('date-text');
+            const dateText = createElement('div', 'date-text', thisWeek[i]);
 
             dayOfTheWeekContainer.appendChild(dayOfTheWeekText);
             dayOfTheWeekContainer.appendChild(dateText);
 
-            const timeAndDividerContainer = document.createElement('div');
-            timeAndDividerContainer.classList.add('time-and-divider-container');
+            const timeAndDividerContainer = createElement('div', 'time-and-divider-container');
 
-            const timeContainer = document.createElement('div');
-            timeContainer.classList.add('time-container');
+            const timeContainer = createElement('div', 'time-container');
 
             for(let j = 0; j < 24; j++){
-                const time = document.createElement('div');
-                time.classList.add('time');
-    
-                timeContainer.appendChild(time);
+                timeContainer.appendChild(createElement('div', 'time'));
             }
 
-            const hourDividerContainer = document.createElement('div');
-            hourDividerContainer.classList.add('hour-divider-container');
+            const hourDividerContainer = createElement('div', 'hour-divider-container')
 
             for(let j = 0; j <= 24; j++){
-                const hourDivider = document.createElement('div');
-                hourDivider.classList.add('hour-divider');
-                hourDivider.innerHTML = j;
-
-                hourDividerContainer.appendChild(hourDivider);
+                hourDividerContainer.appendChild(createElement('div', 'hour-divider', j+''));
             }
 
             timeAndDividerContainer.appendChild(timeContainer);
@@ -134,8 +97,8 @@ const app = () => {
         return bodyContainer;
     }
 
-    target.appendChild(makeHeader(elements));
-    target.appendChild(makeBody(elements));
+    target.appendChild(initHeader(elements));
+    target.appendChild(initBody(elements));
 }
 
 app();
