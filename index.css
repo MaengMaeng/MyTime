@@ -116,6 +116,10 @@ button{
     display: inline-block;
 }
 
+.checked{
+    background-color: #9be9a8;
+}
+
 .hour-divider-container{
     display: inline-block;
 

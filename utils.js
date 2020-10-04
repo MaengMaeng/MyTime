@@ -1,6 +1,15 @@
 const createElement = (tagName, className, text) => {
     const element = document.createElement(tagName);
-    if(className) element.classList.add(className);
+    if(className){
+        if(Array.isArray(className)){
+            for(let i = 0; i < className.length; i++){
+                element.classList.add(className[i]);
+            }
+        }
+        else{
+            element.classList.add(className);
+        }
+    } 
     if(text) {
         if(tagName === 'span') element.innerText = text;
         else element.innerHTML = text;

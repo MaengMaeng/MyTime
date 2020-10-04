@@ -75,7 +75,9 @@ const app = () => {
             const timeContainer = createElement('div', 'time-container');
 
             for(let j = 0; j < 24; j++){
-                timeContainer.appendChild(createElement('div', 'time'));
+                const time = createElement('div', 'time');
+                time.setAttribute('data', 1);
+                timeContainer.appendChild(time);
             }
 
             const hourDividerContainer = createElement('div', 'hour-divider-container')
@@ -99,6 +101,58 @@ const app = () => {
 
     target.appendChild(initHeader(elements));
     target.appendChild(initBody(elements));
+
+    const timeTest = document.getElementsByClassName('time');
+    
+    for(let i = 0; i < timeTest.length; i++){
+        timeTest[i].addEventListener('click', (event) => {
+            const parent = event.target.parentNode;
+            let startTime = 0;
+            for(let i = 0; i < parent.childNodes.length; i++){
+                const data = parent.childNodes[i].getAttribute('data');
+
+                if(parent.childNodes[i] === event.target){
+                    break;
+                }
+
+                startTime += Number(data);
+            }
+
+            const endTime = Number(prompt(`${startTime}시 부터 몇시까지 하셨나요?`));
+            
+            if(endTime && endTime > startTime && endTime <= 24){
+                let index = 0;
+                for(let i = 0, time = 0, end = 24; time < end; i++){
+                    const data = parent.childNodes[i].getAttribute('data');
+
+                    if(startTime <= time && time < endTime){
+                        parent.removeChild(parent.childNodes[i]);
+                        i--;
+                        index = i;
+                    }
+
+                    time += Number(data);
+                }
+
+                const newTime = createElement('div', ['time', 'checked']);
+                newTime.setAttribute('data', endTime - startTime);
+                newTime.style.width = `${16*(endTime-startTime) + 6*(endTime-startTime-1)}px`;
+
+                if(startTime === 0 && endTime === 24){
+                    parent.appendChild(newTime);
+                }
+                else if(startTime === 0){
+                    parent.insertAdjacentElement('afterbegin', newTime);
+                }
+                else if(endTime === 24){
+                    parent.insertAdjacentElement('beforeend', newTime);
+                }
+                else{
+                    parent.childNodes[index].insertAdjacentElement('afterend', newTime);
+                }
+            }
+        });
+    }
 }
 
 app();
