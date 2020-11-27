@@ -4,6 +4,9 @@ const app = () => {
     elements.target = target;
     const thisWeek = getWeek();
 
+    let data = [{},{},{},{},{},{},{}];
+
+
     const initHeader = (elements) => {
         const header = createElement('div', 'header');
         elements.header = header;
@@ -150,7 +153,11 @@ const app = () => {
                 else{
                     parent.childNodes[index].insertAdjacentElement('afterend', newTime);
                 }
+
+                const content = prompt('내용을 입력해주세요.');
+                const state = prompt('분류');
             }
+
         });
     }
 }
