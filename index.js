@@ -99,8 +99,36 @@ const app = () => {
         return bodyContainer;
     }
 
+    const initFooter = (elements) => {
+        const footerContainer = createElement('div', 'footer-container');
+
+        const arr = [['기본', '#ebedf0'], ['공부', '#9be9a8']];
+
+        for(let i = 0; i < 2; i++){
+            const footerElement = createElement('div', 'footer-element');
+
+            const boxContainer = createElement('div', 'box-container');
+            const box = createElement('div', 'box');
+            box.style.backgroundColor = arr[i][1];
+    
+            const boxtTextContainer = createElement('div', 'box-text-container');
+            const boxText = createElement('span', 'box-text', arr[i][0]);
+    
+            boxContainer.appendChild(box);
+            boxtTextContainer.appendChild(boxText);
+    
+            footerElement.appendChild(boxContainer);
+            footerElement.appendChild(boxtTextContainer);
+    
+            footerContainer.appendChild(footerElement);
+        }
+
+        return footerContainer;
+    }
+
     target.appendChild(initHeader(elements));
     target.appendChild(initBody(elements));
+    target.appendChild(initFooter(elements));
 
     const timeTest = document.getElementsByClassName('time');
     
