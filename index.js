@@ -4,6 +4,10 @@ const app = () => {
     elements.target = target;
     const thisWeek = getWeek();
 
+    const arr = [['기본', '#ebedf0'], ['공부', '#9be9a8']];
+
+    // const [settingsModal, settingsModalBody, settingsModalButtons] = createModal('설정', ['확인', '취소'], '400px', '300px');
+
     const initHeader = (elements) => {
         const header = createElement('div', 'header');
         elements.header = header;
@@ -45,6 +49,10 @@ const app = () => {
 
         const settingsButton = createElement('button', 'settings-button', '<img src="./images/black-settings-button.png" />');
         elements.settingsButton = settingsButton;
+
+        // settingsButton.addEventListener('click', () => {
+        //     settingsModal.classList.remove('hide');
+        // });
 
         settingsContainer.appendChild(settingsButton);
 
@@ -102,8 +110,6 @@ const app = () => {
     const initFooter = (elements) => {
         const footerContainer = createElement('div', 'footer-container');
 
-        const arr = [['기본', '#ebedf0'], ['공부', '#9be9a8']];
-
         for(let i = 0; i < 2; i++){
             const footerElement = createElement('div', 'footer-element');
 
@@ -129,6 +135,10 @@ const app = () => {
     target.appendChild(initHeader(elements));
     target.appendChild(initBody(elements));
     target.appendChild(initFooter(elements));
+
+    // target.appendChild(settingsModal);
+    // settingsModalButtons[0].addEventListener('click', () => {settingsModal.classList.add('hide');});
+    // settingsModalButtons[1].addEventListener('click', () => {settingsModal.classList.add('hide');});
 
     const timeTest = document.getElementsByClassName('time');
     
