@@ -1,4 +1,4 @@
-const createModal = (headerText, buttonText, width, height) => {
+const createModal = (headerText, buttonTexts, width, height) => {
     const modalContainer = createElement('div', 'modal-container');
     modalContainer.classList.add('hide');
     
@@ -20,16 +20,16 @@ const createModal = (headerText, buttonText, width, height) => {
     
     const modalFooter = createElement('div', 'modal-footer');
     
-    const buttonElements = [];
-    for(let i = 0; i < buttonText.length; i++){
+    const modalButtons = [];
+    for(let i = 0; i < buttonTexts.length; i++){
         const buttonContainer = createElement('div', 'modal-button-container');
         const button = createElement('button', 'modal-button');
-        button.innerText = buttonText[i];
+        button.innerText = buttonTexts[i];
 
         buttonContainer.appendChild(button);
         modalFooter.appendChild(buttonContainer);
 
-        buttonElements.push(button);
+        modalButtons.push(button);
     }
 
     modalContents.appendChild(modalHeader);
@@ -39,5 +39,5 @@ const createModal = (headerText, buttonText, width, height) => {
     modalContainer.appendChild(modalBackground);
     modalContainer.appendChild(modalContents);
 
-    return [modalContainer, modalBody, buttonElements];
+    return [modalContainer, modalBody, modalButtons];
 }

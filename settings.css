@@ -1,0 +1,66 @@
+.settings-body-container{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.settings-body-element,
+.settings-body-plus-container{
+    width: 50%;
+
+    padding-top: 8px;
+    padding-bottom: 8px;
+    display: flex;
+
+    align-items: center;
+}
+
+.settings-body-plus-container:hover{
+    background-color: #EEE;
+    border: 1px solid #DDD;
+    border-radius: 8px;
+}
+
+.settings-body-box{
+    width: 18px;
+    height: 18px;
+    margin: 0px 2px 0px 2px;
+    margin-left: 8px;
+    background-color: #ebedf0;
+    border:1px solid #DDD;
+    box-shadow: 0 0 0 1px rgba(27,31,35,.04);
+    border-radius: 2px;
+    display: inline-block;
+}
+
+.settings-body-box-text-container,
+.settings-plus-button-text-container{
+    margin-left: 8px;
+    font-size: 14px;
+}
+
+.settings-remove-button{
+    margin-left: 16px;
+    width: 32px;
+    height: 32px;
+}
+
+.settings-remove-button:hover{
+    background-color: #EEE;
+    border: 1px solid #DDD;
+    border-radius: 4px;
+}
+
+.settings-remove-button img{
+    width: 16px;
+    height: 16px;
+}
+
+.settings-plus-button{
+    margin-left: 8px;
+}
+
+.settings-plus-button img{
+    width:20px;
+    height: 20px;
+}
+
