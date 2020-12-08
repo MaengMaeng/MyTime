@@ -4,11 +4,9 @@ const app = () => {
     elements.target = target;
     const thisWeek = getWeek();
 
-    const arr = [['기본', '#ebedf0'], ['공부', '#9be9a8']];
+    const arr = [['기본', '#ebedf0'], ['공부', '#9be9a8'], ['게임', '#87CEFA'], ['운동', '#BA55D3']];
 
-    // const [settingsModal, settingsModalBody, settingsModalButtons] = createModal('설정', ['확인', '취소'], '400px', '300px');
-
-    const initHeader = (elements) => {
+    const initHeader = () => {
         const header = createElement('div', 'header');
         elements.header = header;
 
@@ -50,9 +48,9 @@ const app = () => {
         const settingsButton = createElement('button', 'settings-button', '<img src="./images/black-settings-button.png" />');
         elements.settingsButton = settingsButton;
 
-        // settingsButton.addEventListener('click', () => {
-        //     settingsModal.classList.remove('hide');
-        // });
+        settingsButton.addEventListener('click', () => {
+            elements.settingsModal.classList.remove('hide');
+        });
 
         settingsContainer.appendChild(settingsButton);
 
@@ -63,7 +61,7 @@ const app = () => {
         return header;
     }
 
-    const initBody = (elements) => {
+    const initBody = () => {
         const bodyContainer = createElement('div', 'body-container');
 
         for(let i = 0; i < 7; i++){
@@ -107,10 +105,10 @@ const app = () => {
         return bodyContainer;
     }
 
-    const initFooter = (elements) => {
+    const initFooter = () => {
         const footerContainer = createElement('div', 'footer-container');
 
-        for(let i = 0; i < 2; i++){
+        for(let i = 0; i < arr.length; i++){
             const footerElement = createElement('div', 'footer-element');
 
             const boxContainer = createElement('div', 'box-container');
@@ -132,13 +130,15 @@ const app = () => {
         return footerContainer;
     }
 
+
+
     target.appendChild(initHeader(elements));
     target.appendChild(initBody(elements));
     target.appendChild(initFooter(elements));
 
-    // target.appendChild(settingsModal);
-    // settingsModalButtons[0].addEventListener('click', () => {settingsModal.classList.add('hide');});
-    // settingsModalButtons[1].addEventListener('click', () => {settingsModal.classList.add('hide');});
+    elements.settingsModal = initSettingsModal(arr);
+    target.appendChild(elements.settingsModal);
+
 
     const timeTest = document.getElementsByClassName('time');
     
