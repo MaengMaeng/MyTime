@@ -1,3 +1,5 @@
+let parent;
+
 const app = () => {
     const target = document.getElementById('app');
     const elements = {};
@@ -130,8 +132,6 @@ const app = () => {
         return footerContainer;
     }
 
-
-
     target.appendChild(initHeader(elements));
     target.appendChild(initBody(elements));
     target.appendChild(initFooter(elements));
@@ -139,56 +139,16 @@ const app = () => {
     elements.settingsModal = initSettingsModal(arr);
     target.appendChild(elements.settingsModal);
 
+    elements.timeModal = initTimeModal(arr);
+    target.appendChild(elements.timeModal);
 
     const timeTest = document.getElementsByClassName('time');
     
     for(let i = 0; i < timeTest.length; i++){
         timeTest[i].addEventListener('click', (event) => {
-            const parent = event.target.parentNode;
-            let startTime = 0;
-            for(let i = 0; i < parent.childNodes.length; i++){
-                const data = parent.childNodes[i].getAttribute('data');
-
-                if(parent.childNodes[i] === event.target){
-                    break;
-                }
-
-                startTime += Number(data);
-            }
-
-            const endTime = Number(prompt(`${startTime}시 부터 몇시까지 하셨나요?`));
-            
-            if(endTime && endTime > startTime && endTime <= 24){
-                let index = 0;
-                for(let i = 0, time = 0, end = 24; time < end; i++){
-                    const data = parent.childNodes[i].getAttribute('data');
-
-                    if(startTime <= time && time < endTime){
-                        parent.removeChild(parent.childNodes[i]);
-                        i--;
-                        index = i;
-                    }
-
-                    time += Number(data);
-                }
-
-                const newTime = createElement('div', ['time', 'checked']);
-                newTime.setAttribute('data', endTime - startTime);
-                newTime.style.width = `${16*(endTime-startTime) + 6*(endTime-startTime-1)}px`;
-
-                if(startTime === 0 && endTime === 24){
-                    parent.appendChild(newTime);
-                }
-                else if(startTime === 0){
-                    parent.insertAdjacentElement('afterbegin', newTime);
-                }
-                else if(endTime === 24){
-                    parent.insertAdjacentElement('beforeend', newTime);
-                }
-                else{
-                    parent.childNodes[index].insertAdjacentElement('afterend', newTime);
-                }
-            }
+            document.getElementById('start-time').value = i%24;
+            parent = event.target.parentNode;
+            elements.timeModal.classList.remove('hide');
         });
     }
 }
