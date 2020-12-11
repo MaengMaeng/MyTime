@@ -1,10 +1,28 @@
 let parent;
+const initData = () => {
+    const weekArr = [];
+
+    for(let day = 0; day < 7; day++){
+        const dayArr = [];
+
+        for(let hour = 0; hour < 24; hour++){
+            dayArr.push({type : 0, contents : '', id : 0});
+        }
+
+        weekArr.push(dayArr);
+    }
+
+    return weekArr;
+};
+
+let data = initData();
 
 const app = () => {
     const target = document.getElementById('app');
     const elements = {};
     elements.target = target;
     const thisWeek = getWeek();
+
 
     const arr = [['기본', '#ebedf0'], ['공부', '#9be9a8'], ['게임', '#87CEFA'], ['운동', '#BA55D3']];
 
@@ -68,7 +86,7 @@ const app = () => {
 
         for(let i = 0; i < 7; i++){
             const dayContainer = createElement('div', 'day-container');
-
+            
             const dayOfTheWeekContainer = createElement('div', 'day-of-week-container')
 
             const dayOfTheWeekText = createElement('div', i === 0 ? 'sun' : i === 6 ? 'sat' : null, dayOfTheWeek[i]);
@@ -81,6 +99,7 @@ const app = () => {
             const timeAndDividerContainer = createElement('div', 'time-and-divider-container');
 
             const timeContainer = createElement('div', 'time-container');
+            timeContainer.setAttribute('data', i);
 
             for(let j = 0; j < 24; j++){
                 const time = createElement('div', 'time');

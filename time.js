@@ -63,59 +63,94 @@ const initTimeModal = (arr) => {
         const s = document.getElementById('start-time').value;
         const e = document.getElementById('end-time').value;
         const t = document.getElementById('type').value;
+        const c = document.getElementById('contents').value;
 
         if(s && e && t){
-            let startTime = 0;
-            for(let i = 0; i < parent.childNodes.length; i++){
-                const data = parent.childNodes[i].getAttribute('data');
-    
-                if(i == document.getElementById('start-time').value){
-                    break;
-                }
-    
-                startTime += Number(data);
-            }
-    
-            const endTime = Number(document.getElementById('end-time').value);
+            const startTime = Number(s);
+            const endTime = Number(e);
             
             if(endTime && endTime > startTime && endTime <= 24){
-                let index = 0;
-                for(let i = 0, time = 0, end = 24; time < end; i++){
-                    const data = parent.childNodes[i].getAttribute('data');
-    
-                    if(startTime <= time && time < endTime){
-                        parent.removeChild(parent.childNodes[i]);
-                        i--;
-                        index = i;
-                    }
-    
-                    time += Number(data);
+                
+                let currentDay = data[parent.getAttribute('data') * 1];
+                for(let i = startTime; i < endTime; i++){
+                    currentDay[i] = {type: t, contents: c, id: `${t}.${s}`};
                 }
-    
-                const newTime = createElement('div', ['time', 'checked']);
-                newTime.style.background = arr[document.getElementById('type').value][1];
-                newTime.setAttribute('data', endTime - startTime);
-                newTime.style.width = `${16*(endTime-startTime) + 6*(endTime-startTime-1)}px`;
-    
-                newTime.addEventListener('click', (event) => {
-                    timeModalButtons[1].classList.remove('hide');
-                    document.getElementById('time-modal').classList.remove('hide');
-                    document.getElementById('start-time').value = s;
-                    document.getElementById('end-time').value = e;
-                    document.getElementById('type').value = t;
-                });
+                
+                console.log(currentDay);
+                parent.innerHTML = '';
 
-                if(startTime === 0 && endTime === 24){
-                    parent.appendChild(newTime);
-                }
-                else if(startTime === 0){
-                    parent.insertAdjacentElement('afterbegin', newTime);
-                }
-                else if(endTime === 24){
-                    parent.insertAdjacentElement('beforeend', newTime);
-                }
-                else{
-                    parent.childNodes[index].insertAdjacentElement('afterend', newTime);
+                let currentStartTime = 0, currentEndTime = 1, currentType = currentDay[0].type, currentId = currentDay[0].id;
+                for(let i = 0; i < 24; i++){
+                    if(i < 23){
+                        if(currentDay[i + 1].type == 0 || currentId != currentDay[i + 1].id){
+                            if(currentType == 0){
+                                const newTime = createElement('div', ['time']);
+                                newTime.addEventListener('click', (event) => {
+                                    document.getElementById('start-time').value = i;
+                                    parent = event.target.parentNode;
+                        
+                                    timeModalButtons[0].classList.remove('hide');
+                                    timeModal.classList.remove('hide');
+                                });
+
+                                parent.appendChild(newTime);
+                            }
+                            else{
+                                const newTime = createElement('div', ['time', 'checked']);
+                                newTime.style.background = arr[currentType][1];
+                                console.log(i, currentStartTime, currentEndTime);
+                                newTime.style.width = `${16*(currentEndTime-currentStartTime) + 6*(currentEndTime-currentStartTime-1)}px`;
+
+                                newTime.addEventListener('click', (event) => {
+                                    timeModalButtons[1].classList.remove('hide');
+                                    document.getElementById('time-modal').classList.remove('hide');
+                                    document.getElementById('start-time').value = s;
+                                    document.getElementById('end-time').value = e;
+                                    document.getElementById('type').value = t;
+                                    document.getElementById('contents').value = c;
+                                });
+
+                                parent.appendChild(newTime);
+                            }
+
+                            currentStartTime = i + 1;
+                            currentEndTime = currentStartTime + 1;
+                            currentType = currentDay[currentStartTime].type;
+                            currentId = currentDay[currentStartTime].id; 
+                        }
+                        else{
+                            currentEndTime++;
+                        }
+                    }
+                    else{
+                        if(currentType == 0){
+                            const newTime = createElement('div', ['time']);
+                            newTime.addEventListener('click', (event) => {
+                                document.getElementById('start-time').value = i;
+                                parent = event.target.parentNode;
+                    
+                                timeModalButtons[0].classList.remove('hide');
+                                timeModal.classList.remove('hide');
+
+                            });
+                            parent.appendChild(newTime);
+                        }
+                        else{
+                            const newTime = createElement('div', ['time', 'checked']);
+                            newTime.style.background = arr[currentType][1];
+                            newTime.style.width = `${16*(currentEndTime-currentStartTime) + 6*(currentEndTime-currentStartTime-1)}px`;
+
+                            newTime.addEventListener('click', (event) => {
+                                timeModalButtons[1].classList.remove('hide');
+                                document.getElementById('time-modal').classList.remove('hide');
+                                document.getElementById('start-time').value = s;
+                                document.getElementById('end-time').value = e;
+                                document.getElementById('type').value = t;
+                            });
+
+                            parent.appendChild(newTime);
+                        }
+                    }
                 }
             }
     
