@@ -139,7 +139,10 @@ const app = () => {
     elements.settingsModal = initSettingsModal(arr);
     target.appendChild(elements.settingsModal);
 
-    elements.timeModal = initTimeModal(arr);
+    const {timeModal, timeModalButtons} = initTimeModal(arr);
+    elements.timeModal = timeModal;
+    elements.timeModalButtons = timeModalButtons;
+
     target.appendChild(elements.timeModal);
 
     const timeTest = document.getElementsByClassName('time');
@@ -148,6 +151,8 @@ const app = () => {
         timeTest[i].addEventListener('click', (event) => {
             document.getElementById('start-time').value = i%24;
             parent = event.target.parentNode;
+
+            elements.timeModalButtons[0].classList.remove('hide');
             elements.timeModal.classList.remove('hide');
         });
     }
