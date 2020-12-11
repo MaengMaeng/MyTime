@@ -1,5 +1,9 @@
 const initTimeModal = (arr) => {
-    const [timeModal, timeModalBody, timeModalButtons] = createModal('일정 추가', ['확인', '취소'], '500px', '400px');
+    const [timeModal, timeModalBody, timeModalButtons] = createModal('일정 추가', ['확인', '수정', '취소'], '500px', '400px');
+    timeModal.id = 'time-modal';
+
+    timeModalButtons[0].classList.add('hide');
+    timeModalButtons[1].classList.add('hide');
 
     const body = createElement('div', 'time-body');
 
@@ -54,6 +58,8 @@ const initTimeModal = (arr) => {
     timeModalBody.appendChild(body);
 
     timeModalButtons[0].addEventListener('click', () => {
+        timeModalButtons[0].classList.add('hide');
+
         const s = document.getElementById('start-time').value;
         const e = document.getElementById('end-time').value;
         const t = document.getElementById('type').value;
@@ -91,6 +97,14 @@ const initTimeModal = (arr) => {
                 newTime.setAttribute('data', endTime - startTime);
                 newTime.style.width = `${16*(endTime-startTime) + 6*(endTime-startTime-1)}px`;
     
+                newTime.addEventListener('click', (event) => {
+                    timeModalButtons[1].classList.remove('hide');
+                    document.getElementById('time-modal').classList.remove('hide');
+                    document.getElementById('start-time').value = s;
+                    document.getElementById('end-time').value = e;
+                    document.getElementById('type').value = t;
+                });
+
                 if(startTime === 0 && endTime === 24){
                     parent.appendChild(newTime);
                 }
@@ -115,13 +129,19 @@ const initTimeModal = (arr) => {
     });
 
     timeModalButtons[1].addEventListener('click', () => {
+        timeModalButtons[1].classList.add('hide');
+    });
+
+    timeModalButtons[2].addEventListener('click', () => {
         document.getElementById('start-time').value = '';
         document.getElementById('end-time').value = '';
         document.getElementById('type').value = '';
         document.getElementById('contents').value = '';
 
+        timeModalButtons[0].classList.add('hide');
+        timeModalButtons[1].classList.add('hide');
         timeModal.classList.add('hide');
     }); 
     
-    return timeModal;
+    return {timeModal, timeModalButtons};
 }
