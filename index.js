@@ -209,6 +209,7 @@ const app = () => {
                     else{
                         //입력된 박스
                         elements.timeModalButtons[1].classList.remove('hide');
+                        elements.timeModalButtons[2].classList.remove('hide');
                         document.getElementById('time-modal').classList.remove('hide');
                         
                         let dateIndex = event.target.parentNode.getAttribute('data') * 1;
