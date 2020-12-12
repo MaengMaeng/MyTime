@@ -1,4 +1,3 @@
-// let parent;
 const initData = () => {
     const weekArr = [];
 
@@ -35,43 +34,17 @@ const drawBox = () => {
         for(let i = 0; i < 24; i++){
             if(i < 23){
                 if(currentDay[i + 1].type == 0 || currentId != currentDay[i + 1].id){
-                    if(currentType == 0){
-                        const newTime = createElement('div', ['time']);
+                    const newTime = createElement('div', ['time']);
+                    newTime.setAttribute('type', currentType);
+                    newTime.setAttribute('start-time', currentStartTime);
+                    newTime.setAttribute('end-time', currentEndTime);
 
-                        newTime.addEventListener('click', (event) => {
-                            document.getElementById('start-time').value = i;
-                            parent = event.target.parentNode;
-                
-                            elements.timeModalButtons[0].classList.remove('hide');
-                            elements.timeModal.classList.remove('hide');
-                        });
-    
-                        parent.appendChild(newTime);
-                    }
-                    else{
-                        const newTime = createElement('div', ['time', 'checked']);
-                        newTime.setAttribute('start-time', currentStartTime);
-                        newTime.setAttribute('end-time', currentEndTime);
-
+                    if(currentType != 0){
                         newTime.style.background = arr[currentType][1];
                         newTime.style.width = `${16*(currentEndTime-currentStartTime) + 6*(currentEndTime-currentStartTime-1)}px`;
-                        
-                        newTime.addEventListener('click', (event) => {
-                            elements.timeModalButtons[1].classList.remove('hide');
-                            document.getElementById('time-modal').classList.remove('hide');
-                            
-                            let dateIndex = event.target.parentNode.getAttribute('data') * 1;
-                            let index = event.target.getAttribute('start-time') * 1;
-                            let currentData = data[dateIndex][index]; 
-
-                            document.getElementById('start-time').value = index;
-                            document.getElementById('end-time').value = event.target.getAttribute('end-time') * 1;
-                            document.getElementById('type').value = currentData.type;
-                            document.getElementById('contents').value = currentData.contents;
-                        });
-    
-                        parent.appendChild(newTime);
                     }
+
+                    parent.appendChild(newTime);
     
                     currentStartTime = i + 1;
                     currentEndTime = currentStartTime + 1;
@@ -83,47 +56,21 @@ const drawBox = () => {
                 }
             }
             else{
-                if(currentType == 0){
-                    const newTime = createElement('div', ['time']);
-                    newTime.addEventListener('click', (event) => {
-                        document.getElementById('start-time').value = i;
-                        parent = event.target.parentNode;
-            
-                        elements.timeModalButtons[0].classList.remove('hide');
-                        elements.timeModal.classList.remove('hide');
-    
-                    });
-                    parent.appendChild(newTime);
-                }
-                else{
-                    const newTime = createElement('div', ['time', 'checked']);
-                    newTime.setAttribute('start-time', currentStartTime);
-                    newTime.setAttribute('end-time', currentEndTime);
+                const newTime = createElement('div', ['time']);
+                newTime.setAttribute('type', currentType);
+                newTime.setAttribute('start-time', currentStartTime);
+                newTime.setAttribute('end-time', currentEndTime);
 
+                if(currentType !== 0){
                     newTime.style.background = arr[currentType][1];
                     newTime.style.width = `${16*(currentEndTime-currentStartTime) + 6*(currentEndTime-currentStartTime-1)}px`;
-                    
-                    newTime.addEventListener('click', (event) => {
-                        elements.timeModalButtons[1].classList.remove('hide');
-                        document.getElementById('time-modal').classList.remove('hide');
-                        
-                        let dateIndex = event.target.parentNode.getAttribute('data') * 1;
-                        let index = event.target.getAttribute('start-time') * 1;
-                        let currentData = data[dateIndex][index]; 
-
-                        document.getElementById('start-time').value = index;
-                        document.getElementById('end-time').value = event.target.getAttribute('end-time') * 1;
-                        document.getElementById('type').value = currentData.type;
-                        document.getElementById('contents').value = currentData.contents;
-                    });
-    
-                    parent.appendChild(newTime);
                 }
+
+                parent.appendChild(newTime);
             }
         }
     }
 };
-
 
 const app = () => {
     const target = document.getElementById('app');
@@ -204,29 +151,49 @@ const app = () => {
 
             const timeContainer = createElement('div', 'time-container');
             timeContainer.setAttribute('data', i);
+            timeContainer.addEventListener('click', (event) => {
+                if(event.target.classList.contains('time')){
+                    if(event.target.getAttribute('type') == 0){
+                        //기본 박스
+                        document.getElementById('start-time').value = event.target.getAttribute('start-time') * 1;
+            
+                        elements.timeModalButtons[0].classList.remove('hide');
+                        elements.timeModal.classList.remove('hide');
+                    }
+                    else{
+                        //입력된 박스
+                        elements.timeModalButtons[1].classList.remove('hide');
+                        document.getElementById('time-modal').classList.remove('hide');
+                        
+                        let dateIndex = event.target.parentNode.getAttribute('data') * 1;
+                        let index = event.target.getAttribute('start-time') * 1;
+                        let currentData = data[dateIndex][index]; 
 
-            for(let j = 0; j < 24; j++){
-                const time = createElement('div', 'time');
-                time.setAttribute('data', 1);
-                timeContainer.appendChild(time);
-            }
-
+                        document.getElementById('start-time').value = index;
+                        document.getElementById('end-time').value = event.target.getAttribute('end-time') * 1;
+                        document.getElementById('type').value = currentData.type;
+                        document.getElementById('contents').value = currentData.contents;
+                    }
+                }
+            })
+            
             const hourDividerContainer = createElement('div', 'hour-divider-container')
-
+            
             for(let j = 0; j <= 24; j++){
                 hourDividerContainer.appendChild(createElement('div', 'hour-divider', j+''));
             }
-
+            
             timeAndDividerContainer.appendChild(timeContainer);
             timeAndDividerContainer.appendChild(hourDividerContainer);
-
+            
             dayContainer.appendChild(dayOfTheWeekContainer);
-
+            
             dayContainer.appendChild(timeAndDividerContainer);
-
+            
             bodyContainer.appendChild(dayContainer);
         }
-
+        
+            
         return bodyContainer;
     }
 
@@ -257,6 +224,7 @@ const app = () => {
 
     target.appendChild(initHeader(elements));
     target.appendChild(initBody(elements));
+    drawBox();
     target.appendChild(initFooter(elements));
 
     elements.settingsModal = initSettingsModal(arr);
