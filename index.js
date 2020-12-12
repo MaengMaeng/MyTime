@@ -1,4 +1,4 @@
-let parent;
+// let parent;
 const initData = () => {
     const weekArr = [];
 
@@ -17,14 +17,118 @@ const initData = () => {
 
 let data = initData();
 
+const elements = {};
+const arr = [['기본', '#ebedf0'], ['공부', '#9be9a8'], ['게임', '#87CEFA'], ['운동', '#BA55D3']];
+
+const drawBox = () => {
+    const boxContainers = document.getElementsByClassName('time-container');
+
+    for(let i = 0; i < 7; i++){
+        let parent = boxContainers[i];
+
+        parent.innerHTML = '';
+
+        let dateIndex = parent.getAttribute('data') * 1;
+        let currentDay = data[dateIndex];
+
+        let currentStartTime = 0, currentEndTime = 1, currentType = currentDay[0].type, currentId = currentDay[0].id;
+        for(let i = 0; i < 24; i++){
+            if(i < 23){
+                if(currentDay[i + 1].type == 0 || currentId != currentDay[i + 1].id){
+                    if(currentType == 0){
+                        const newTime = createElement('div', ['time']);
+
+                        newTime.addEventListener('click', (event) => {
+                            document.getElementById('start-time').value = i;
+                            parent = event.target.parentNode;
+                
+                            elements.timeModalButtons[0].classList.remove('hide');
+                            elements.timeModal.classList.remove('hide');
+                        });
+    
+                        parent.appendChild(newTime);
+                    }
+                    else{
+                        const newTime = createElement('div', ['time', 'checked']);
+                        newTime.setAttribute('start-time', currentStartTime);
+                        newTime.setAttribute('end-time', currentEndTime);
+
+                        newTime.style.background = arr[currentType][1];
+                        newTime.style.width = `${16*(currentEndTime-currentStartTime) + 6*(currentEndTime-currentStartTime-1)}px`;
+                        
+                        newTime.addEventListener('click', (event) => {
+                            elements.timeModalButtons[1].classList.remove('hide');
+                            document.getElementById('time-modal').classList.remove('hide');
+                            
+                            let dateIndex = event.target.parentNode.getAttribute('data') * 1;
+                            let index = event.target.getAttribute('start-time') * 1;
+                            let currentData = data[dateIndex][index]; 
+
+                            document.getElementById('start-time').value = index;
+                            document.getElementById('end-time').value = event.target.getAttribute('end-time') * 1;
+                            document.getElementById('type').value = currentData.type;
+                            document.getElementById('contents').value = currentData.contents;
+                        });
+    
+                        parent.appendChild(newTime);
+                    }
+    
+                    currentStartTime = i + 1;
+                    currentEndTime = currentStartTime + 1;
+                    currentType = currentDay[currentStartTime].type;
+                    currentId = currentDay[currentStartTime].id; 
+                }
+                else{
+                    currentEndTime++;
+                }
+            }
+            else{
+                if(currentType == 0){
+                    const newTime = createElement('div', ['time']);
+                    newTime.addEventListener('click', (event) => {
+                        document.getElementById('start-time').value = i;
+                        parent = event.target.parentNode;
+            
+                        elements.timeModalButtons[0].classList.remove('hide');
+                        elements.timeModal.classList.remove('hide');
+    
+                    });
+                    parent.appendChild(newTime);
+                }
+                else{
+                    const newTime = createElement('div', ['time', 'checked']);
+                    newTime.setAttribute('start-time', currentStartTime);
+                    newTime.setAttribute('end-time', currentEndTime);
+
+                    newTime.style.background = arr[currentType][1];
+                    newTime.style.width = `${16*(currentEndTime-currentStartTime) + 6*(currentEndTime-currentStartTime-1)}px`;
+                    
+                    newTime.addEventListener('click', (event) => {
+                        elements.timeModalButtons[1].classList.remove('hide');
+                        document.getElementById('time-modal').classList.remove('hide');
+                        
+                        let dateIndex = event.target.parentNode.getAttribute('data') * 1;
+                        let index = event.target.getAttribute('start-time') * 1;
+                        let currentData = data[dateIndex][index]; 
+
+                        document.getElementById('start-time').value = index;
+                        document.getElementById('end-time').value = event.target.getAttribute('end-time') * 1;
+                        document.getElementById('type').value = currentData.type;
+                        document.getElementById('contents').value = currentData.contents;
+                    });
+    
+                    parent.appendChild(newTime);
+                }
+            }
+        }
+    }
+};
+
+
 const app = () => {
     const target = document.getElementById('app');
-    const elements = {};
     elements.target = target;
     const thisWeek = getWeek();
-
-
-    const arr = [['기본', '#ebedf0'], ['공부', '#9be9a8'], ['게임', '#87CEFA'], ['운동', '#BA55D3']];
 
     const initHeader = () => {
         const header = createElement('div', 'header');
