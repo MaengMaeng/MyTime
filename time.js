@@ -58,32 +58,30 @@ const initTimeModal = (arr) => {
     timeModalBody.appendChild(body);
 
     timeModalButtons[0].addEventListener('click', () => {
-        timeModalButtons[0].classList.add('hide');
-
         const s = document.getElementById('start-time').value;
         const e = document.getElementById('end-time').value;
         const t = document.getElementById('type').value;
         const c = document.getElementById('contents').value;
-
+        
         if(s && e && t){
             const startTime = Number(s);
             const endTime = Number(e);
             
             if(endTime && endTime > startTime && endTime <= 24){
-                
-                let currentDay = data[parent.getAttribute('data') * 1];
+                let currentDay = data[selectedWeek.getAttribute('data') * 1];
                 for(let i = startTime; i < endTime; i++){
                     currentDay[i] = {type: t, contents: c, id: `${t}.${s}`};
                 }
                 
                 drawBox();
             }
-    
+            
             document.getElementById('start-time').value = '';
             document.getElementById('end-time').value = '';
             document.getElementById('type').value = '';
             document.getElementById('contents').value = '';
-    
+            
+            timeModalButtons[0].classList.add('hide');
             timeModal.classList.add('hide');
         }
     });
