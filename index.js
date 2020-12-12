@@ -97,6 +97,15 @@ const drawBox = () => {
     }
 };
 
+const removeSelectedBox = (currentDay) => {
+    const startTime = selectedBox.getAttribute('start-time') * 1;
+    const endTime = selectedBox.getAttribute('end-time') * 1;
+
+    for(let i = startTime; i < endTime; i++){
+        currentDay[i] = {type : 0, contents : '', id : 0};
+    }
+};
+ 
 const app = () => {
     const target = document.getElementById('app');
     elements.target = target;
@@ -186,10 +195,13 @@ const app = () => {
             timeContainer.addEventListener('click', (event) => {
                 if(event.target.classList.contains('time')){
                     selectedWeek = event.target.parentNode;
+                    selectedBox = event.target;
+
                     if(event.target.getAttribute('type') == 0){
                         //기본 박스
                         document.getElementById('start-time').value = event.target.getAttribute('start-time') * 1;
-            
+                        document.getElementById('start-time').readOnly = true;
+
                         elements.timeModalHeader.innerHTML = '일정 추가';
                         elements.timeModalButtons[0].classList.remove('hide');
                         elements.timeModal.classList.remove('hide');
@@ -201,6 +213,8 @@ const app = () => {
                         
                         let dateIndex = event.target.parentNode.getAttribute('data') * 1;
                         let index = event.target.getAttribute('start-time') * 1;
+                        document.getElementById('start-time').readOnly = false;
+
                         let currentData = data[dateIndex][index]; 
 
                         elements.timeModalHeader.innerHTML = '일정 수정';
@@ -277,6 +291,7 @@ let today = new Date();
 let data = initData();
 let thisWeek = getWeek();
 let selectedWeek;
+let selectedBox;
 
 const elements = {};
 const arr = [['기본', '#ebedf0'], ['공부', '#9be9a8'], ['게임', '#87CEFA'], ['운동', '#BA55D3']];
