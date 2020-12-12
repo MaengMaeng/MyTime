@@ -14,7 +14,6 @@ const initTimeModal = (arr) => {
     const startTimeSpan = createElement('span', 'start-time-span', '시작 시간 :');
     const startTimeInput = createElement('input', 'start-time-input');
     startTimeInput.id = 'start-time';
-    startTimeInput.readOnly = true;
 
     startTimeDiv.appendChild(startTimeSpan);
     startTimeDiv.appendChild(startTimeInput);
@@ -74,20 +73,54 @@ const initTimeModal = (arr) => {
                 }
                 
                 drawBox();
+
+                document.getElementById('start-time').value = '';
+                document.getElementById('end-time').value = '';
+                document.getElementById('type').value = '';
+                document.getElementById('contents').value = '';
+                
+                timeModalButtons[0].classList.add('hide');
+                timeModal.classList.add('hide');
             }
-            
-            document.getElementById('start-time').value = '';
-            document.getElementById('end-time').value = '';
-            document.getElementById('type').value = '';
-            document.getElementById('contents').value = '';
-            
-            timeModalButtons[0].classList.add('hide');
-            timeModal.classList.add('hide');
+            else{
+                alert('전부 입력해주세요.');
+            }
         }
     });
 
     timeModalButtons[1].addEventListener('click', () => {
-        timeModalButtons[1].classList.add('hide');
+        const s = document.getElementById('start-time').value;
+        const e = document.getElementById('end-time').value;
+        const t = document.getElementById('type').value;
+        const c = document.getElementById('contents').value;
+        
+        if(s && e && t){
+            const startTime = Number(s);
+            const endTime = Number(e);
+            
+            if(endTime && endTime > startTime && endTime <= 24){
+                let currentDay = data[selectedWeek.getAttribute('data') * 1];
+
+                removeSelectedBox(currentDay);
+
+                for(let i = startTime; i < endTime; i++){
+                    currentDay[i] = {type: t, contents: c, id: `${t}.${s}`};
+                }
+                
+                drawBox();
+
+                document.getElementById('start-time').value = '';
+                document.getElementById('end-time').value = '';
+                document.getElementById('type').value = '';
+                document.getElementById('contents').value = '';
+                
+                timeModalButtons[1].classList.add('hide');
+                timeModal.classList.add('hide');
+            }
+            else{
+                alert('전부 입력해주세요.');
+            }
+        }
     });
 
     timeModalButtons[2].addEventListener('click', () => {
