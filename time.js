@@ -1,9 +1,10 @@
 const initTimeModal = (arr) => {
-    const [timeModal, timeModalBody, timeModalButtons, timeModalHeaderText] = createModal('일정 추가', ['확인', '수정', '취소'], '500px', '400px');
+    const [timeModal, timeModalBody, timeModalButtons, timeModalHeaderText] = createModal('일정 추가', ['확인', '수정', '삭제', '취소'], '500px', '400px');
     timeModal.id = 'time-modal';
 
     timeModalButtons[0].classList.add('hide');
     timeModalButtons[1].classList.add('hide');
+    timeModalButtons[2].classList.add('hide');
 
     const body = createElement('div', 'time-body');
 
@@ -14,6 +15,7 @@ const initTimeModal = (arr) => {
     const startTimeSpan = createElement('span', 'start-time-span', '시작 시간 :');
     const startTimeInput = createElement('input', 'start-time-input');
     startTimeInput.id = 'start-time';
+    startTimeInput.readOnly = true;
 
     startTimeDiv.appendChild(startTimeSpan);
     startTimeDiv.appendChild(startTimeInput);
@@ -115,6 +117,7 @@ const initTimeModal = (arr) => {
                 document.getElementById('contents').value = '';
                 
                 timeModalButtons[1].classList.add('hide');
+                timeModalButtons[2].classList.add('hide');
                 timeModal.classList.add('hide');
             }
             else{
@@ -124,6 +127,24 @@ const initTimeModal = (arr) => {
     });
 
     timeModalButtons[2].addEventListener('click', () => {
+        if(confirm('정말 삭제하시겠습니까?')){
+            let currentDay = data[selectedWeek.getAttribute('data') * 1];
+
+            removeSelectedBox(currentDay);
+            drawBox();
+
+            document.getElementById('start-time').value = '';
+            document.getElementById('end-time').value = '';
+            document.getElementById('type').value = '';
+            document.getElementById('contents').value = '';
+            
+            timeModalButtons[1].classList.add('hide');
+            timeModalButtons[2].classList.add('hide');
+            timeModal.classList.add('hide');
+        }
+    }); 
+
+    timeModalButtons[3].addEventListener('click', () => {
         document.getElementById('start-time').value = '';
         document.getElementById('end-time').value = '';
         document.getElementById('type').value = '';
@@ -131,6 +152,7 @@ const initTimeModal = (arr) => {
 
         timeModalButtons[0].classList.add('hide');
         timeModalButtons[1].classList.add('hide');
+        timeModalButtons[2].classList.add('hide');
         timeModal.classList.add('hide');
     }); 
     
