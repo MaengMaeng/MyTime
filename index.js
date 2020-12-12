@@ -1,23 +1,48 @@
-const initData = () => {
-    const weekArr = [];
-
-    for(let day = 0; day < 7; day++){
-        const dayArr = [];
-
-        for(let hour = 0; hour < 24; hour++){
-            dayArr.push({type : 0, contents : '', id : 0});
+const initData = (date) => {
+    if(!date){
+        const weekArr = [];
+    
+        for(let day = 0; day < 7; day++){
+            const dayArr = [];
+    
+            for(let hour = 0; hour < 24; hour++){
+                dayArr.push({type : 0, contents : '', id : 0});
+            }
+    
+            weekArr.push(dayArr);
         }
 
-        weekArr.push(dayArr);
+        return weekArr;
     }
+    else{
+        // 데이터 받아오는 부분
 
-    return weekArr;
+        return [];
+    }
 };
 
-let data = initData();
+const drawDate = (left) => {
+    if(left){
+        today.setDate(today.getDate() - 7);
+    }
+    else{
+        today.setDate(today.getDate() + 7);
+    }
 
-const elements = {};
-const arr = [['기본', '#ebedf0'], ['공부', '#9be9a8'], ['게임', '#87CEFA'], ['운동', '#BA55D3']];
+    console.log(today);
+
+    thisWeek = getWeek(today);
+    data = initData();
+
+    elements.year.innerHTML = today.getFullYear();
+    elements.startWeek.innerHTML = thisWeek[0];
+    elements.endWeek.innerHTML = thisWeek[6];
+
+    let dateText = document.getElementsByClassName('date-text');
+    for(let i = 0; i < dateText.length; i++){
+        dateText[i].innerHTML = thisWeek[i];
+    }
+}
 
 const drawBox = () => {
     const boxContainers = document.getElementsByClassName('time-container');
@@ -75,7 +100,6 @@ const drawBox = () => {
 const app = () => {
     const target = document.getElementById('app');
     elements.target = target;
-    const thisWeek = getWeek();
 
     const initHeader = () => {
         const header = createElement('div', 'header');
@@ -92,9 +116,17 @@ const app = () => {
 
         const prevButton = createElement('button', 'prev-button', '◀');
         elements.prevButton = prevButton;
+        prevButton.addEventListener('click', (event) => {
+            drawDate(true);
+            drawBox();
+        });
 
         const nextButton = createElement('button', 'next-button', '▶');
         elements.nextButton = nextButton;
+        nextButton.addEventListener('click', (event) => {
+            drawDate(false);
+            drawBox();
+        });
 
         const week = createElement('div', 'week');
 
@@ -153,6 +185,7 @@ const app = () => {
             timeContainer.setAttribute('data', i);
             timeContainer.addEventListener('click', (event) => {
                 if(event.target.classList.contains('time')){
+                    selectedWeek = event.target.parentNode;
                     if(event.target.getAttribute('type') == 0){
                         //기본 박스
                         document.getElementById('start-time').value = event.target.getAttribute('start-time') * 1;
@@ -238,18 +271,14 @@ const app = () => {
     elements.timeModalButtons = timeModalButtons;
 
     target.appendChild(elements.timeModal);
-
-    const timeTest = document.getElementsByClassName('time');
-    
-    for(let i = 0; i < timeTest.length; i++){
-        timeTest[i].addEventListener('click', (event) => {
-            document.getElementById('start-time').value = i%24;
-            parent = event.target.parentNode;
-
-            elements.timeModalButtons[0].classList.remove('hide');
-            elements.timeModal.classList.remove('hide');
-        });
-    }
 }
+
+let today = new Date();
+let data = initData();
+let thisWeek = getWeek();
+let selectedWeek;
+
+const elements = {};
+const arr = [['기본', '#ebedf0'], ['공부', '#9be9a8'], ['게임', '#87CEFA'], ['운동', '#BA55D3']];
 
 app();
