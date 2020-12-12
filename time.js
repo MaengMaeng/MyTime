@@ -1,5 +1,5 @@
 const initTimeModal = (arr) => {
-    const [timeModal, timeModalBody, timeModalButtons] = createModal('일정 추가', ['확인', '수정', '취소'], '500px', '400px');
+    const [timeModal, timeModalBody, timeModalButtons, timeModalHeaderText] = createModal('일정 추가', ['확인', '수정', '취소'], '500px', '400px');
     timeModal.id = 'time-modal';
 
     timeModalButtons[0].classList.add('hide');
@@ -103,5 +103,5 @@ const initTimeModal = (arr) => {
         timeModal.classList.add('hide');
     }); 
     
-    return {timeModal, timeModalButtons};
+    return {timeModal, timeModalButtons, timeModalHeaderText};
 }

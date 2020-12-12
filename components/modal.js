@@ -39,5 +39,5 @@ const createModal = (headerText, buttonTexts, width, height) => {
     modalContainer.appendChild(modalBackground);
     modalContainer.appendChild(modalContents);
 
-    return [modalContainer, modalBody, modalButtons];
+    return [modalContainer,  modalBody, modalButtons, modalHeaderText];
 }

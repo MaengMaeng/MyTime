@@ -157,6 +157,7 @@ const app = () => {
                         //기본 박스
                         document.getElementById('start-time').value = event.target.getAttribute('start-time') * 1;
             
+                        elements.timeModalHeader.innerHTML = '일정 추가';
                         elements.timeModalButtons[0].classList.remove('hide');
                         elements.timeModal.classList.remove('hide');
                     }
@@ -169,6 +170,7 @@ const app = () => {
                         let index = event.target.getAttribute('start-time') * 1;
                         let currentData = data[dateIndex][index]; 
 
+                        elements.timeModalHeader.innerHTML = '일정 수정';
                         document.getElementById('start-time').value = index;
                         document.getElementById('end-time').value = event.target.getAttribute('end-time') * 1;
                         document.getElementById('type').value = currentData.type;
@@ -230,7 +232,8 @@ const app = () => {
     elements.settingsModal = initSettingsModal(arr);
     target.appendChild(elements.settingsModal);
 
-    const {timeModal, timeModalButtons} = initTimeModal(arr);
+    const {timeModalHeaderText, timeModal, timeModalButtons} = initTimeModal(arr);
+    elements.timeModalHeader = timeModalHeaderText;
     elements.timeModal = timeModal;
     elements.timeModalButtons = timeModalButtons;
 
