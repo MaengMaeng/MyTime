@@ -1,25 +1,21 @@
-const initData = (date) => {
-    if(!date){
-        const weekArr = [];
-    
-        for(let day = 0; day < 7; day++){
-            const dayArr = [];
-    
-            for(let hour = 0; hour < 24; hour++){
-                dayArr.push({type : 0, contents : '', id : 0});
-            }
-    
-            weekArr.push(dayArr);
-        }
+const getData = (date) => {
+    chrome.storage.sync.get(date, (items) => {
+        data = items[date] || getInitData();
 
-        return weekArr;
-    }
-    else{
-        // 데이터 받아오는 부분
+        console.log(date, items[date]);
 
-        return [];
-    }
+        drawBox();
+    })
 };
+
+const setData = () => {
+    let items = {};
+    items[DATE] = data;
+
+    chrome.storage.sync.set(items, () => {
+        console.log(items, '저장 되었습니다.');
+    });
+}
 
 const drawDate = (left) => {
     if(left){
@@ -28,11 +24,9 @@ const drawDate = (left) => {
     else{
         today.setDate(today.getDate() + 7);
     }
-
-    console.log(today);
-
+    
     thisWeek = getWeek(today);
-    data = initData();
+    DATE = `${today.getFullYear()}.${thisWeek[0]}`
 
     elements.year.innerHTML = today.getFullYear();
     elements.startWeek.innerHTML = thisWeek[0];
@@ -127,14 +121,16 @@ const app = () => {
         elements.prevButton = prevButton;
         prevButton.addEventListener('click', (event) => {
             drawDate(true);
-            drawBox();
+            getData(DATE);
+            // drawBox();
         });
 
         const nextButton = createElement('button', 'next-button', '▶');
         elements.nextButton = nextButton;
         nextButton.addEventListener('click', (event) => {
             drawDate(false);
-            drawBox();
+            getData(DATE);
+            // drawBox();
         });
 
         const week = createElement('div', 'week');
@@ -274,7 +270,9 @@ const app = () => {
 
     target.appendChild(initHeader(elements));
     target.appendChild(initBody(elements));
-    drawBox();
+
+    getData(DATE);
+
     target.appendChild(initFooter(elements));
 
     elements.settingsModal = initSettingsModal(arr);
@@ -289,8 +287,14 @@ const app = () => {
 }
 
 let today = new Date();
-let data = initData();
 let thisWeek = getWeek();
+
+// let data;
+let DATE = `${today.getFullYear()}.${thisWeek[0]}`;
+let data;
+// getData();
+// getData(`${today.getFullYear()}${thisWeek[0]}`);
+
 let selectedWeek;
 let selectedBox;
 

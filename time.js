@@ -74,6 +74,7 @@ const initTimeModal = (arr) => {
                     currentDay[i] = {type: t, contents: c, id: `${t}.${s}`};
                 }
                 
+                setData();
                 drawBox();
 
                 document.getElementById('start-time').value = '';
@@ -109,6 +110,7 @@ const initTimeModal = (arr) => {
                     currentDay[i] = {type: t, contents: c, id: `${t}.${s}`};
                 }
                 
+                setData();
                 drawBox();
 
                 document.getElementById('start-time').value = '';
@@ -131,6 +133,7 @@ const initTimeModal = (arr) => {
             let currentDay = data[selectedWeek.getAttribute('data') * 1];
 
             removeSelectedBox(currentDay);
+            setData();
             drawBox();
 
             document.getElementById('start-time').value = '';
