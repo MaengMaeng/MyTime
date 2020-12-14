@@ -18,6 +18,8 @@
     background-color: #EEE;
     border: 1px solid #DDD;
     border-radius: 8px;
+
+    cursor: pointer;
 }
 
 .settings-body-box{
@@ -48,6 +50,8 @@
     background-color: #EEE;
     border: 1px solid #DDD;
     border-radius: 4px;
+
+    cursor: pointer;
 }
 
 .settings-remove-button img{
