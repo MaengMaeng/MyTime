@@ -15,3 +15,7 @@ const getInitData = () => {
 
     return weekArr;
 }
+
+const getInitTypes = () => {
+    return [['기본', '#ebedf0', 1], ['공부', '#9be9a8', 1], ['게임', '#87CEFA', 1], ['운동', '#BA55D3', 1]];
+}

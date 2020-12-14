@@ -1,6 +1,4 @@
 const createSelection = (arr, id) => {
-    const container = createElement('div', 'container');
-
     const selectionDiv = createElement('div', 'selection');
 
     const selectionInput = createElement('input', 'selection-input');
@@ -33,34 +31,36 @@ const createSelection = (arr, id) => {
     const menuDiv = createElement('div', 'menu-div');
     const options = [];
     for(let i = 1; i < arr.length; i++){
-        const option = createElement('div', 'option');
-        options.push(option);
-        option.classList.add('hide');
-
-        const optionBox = createElement('div', 'option-box');
-        optionBox.style.backgroundColor = arr[i][1];
-        
-        const optionSpanDiv = createElement('div', 'option-span-div');
-        const optionSpan = createElement('span', 'option-span',arr[i][0]);
-
-        optionSpanDiv.appendChild(optionSpan);
-
-        option.appendChild(optionBox);
-        option.appendChild(optionSpanDiv);
-
-        option.addEventListener('click', (event) => {
-            if(defaultDiv.innerHTML != option){
-                defaultDiv.innerHTML = option.innerHTML;
-                selectionInput.value = i;
-
-                for(let i = 0; i < options.length; i++){
-                    options[i].classList.remove('selected');
+        if(arr[i][2]){
+            const option = createElement('div', 'option');
+            options.push(option);
+            option.classList.add('hide');
+    
+            const optionBox = createElement('div', 'option-box');
+            optionBox.style.backgroundColor = arr[i][1];
+            
+            const optionSpanDiv = createElement('div', 'option-span-div');
+            const optionSpan = createElement('span', 'option-span',arr[i][0]);
+    
+            optionSpanDiv.appendChild(optionSpan);
+    
+            option.appendChild(optionBox);
+            option.appendChild(optionSpanDiv);
+    
+            option.addEventListener('click', (event) => {
+                if(defaultDiv.innerHTML != option){
+                    defaultDiv.innerHTML = option.innerHTML;
+                    selectionInput.value = i;
+    
+                    for(let i = 0; i < options.length; i++){
+                        options[i].classList.remove('selected');
+                    }
+                    option.classList.add('selected');
                 }
-                option.classList.add('selected');
-            }
-        })
-
-        menuDiv.appendChild(option);
+            })
+    
+            menuDiv.appendChild(option);
+        }
     }
 
     selectionDiv.appendChild(selectionInput);
@@ -68,7 +68,6 @@ const createSelection = (arr, id) => {
 
     selectionDiv.appendChild(menuDiv);
 
-    container.appendChild(selectionDiv);
 
-    return container;
+    return selectionDiv;
 }

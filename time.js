@@ -34,11 +34,15 @@ const initTimeModal = (arr) => {
     
     const typeSpan = createElement('span', 'type-span', '분류 :');
 
-    const typeSelection = createSelection(arr, 'type');
-    typeSelection.style.width = '150px';
+    const typeSelectionContainer = createElement('div', 'type-selection-container');
+    typeSelectionContainer.id = 'type-selection';
+
+    // const typeSelection = createSelection(arr, 'type');
+
+    // typeSelectionContainer.appendChild(typeSelection);
 
     typeDiv.appendChild(typeSpan);
-    typeDiv.appendChild(typeSelection);
+    typeDiv.appendChild(typeSelectionContainer);
 
     leftDiv.appendChild(startTimeDiv);
     leftDiv.appendChild(endTimeDiv);

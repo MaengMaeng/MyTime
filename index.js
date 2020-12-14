@@ -15,10 +15,38 @@ const getData = (date) => {
 const setData = () => {
     let items = {};
     items[DATE] = data;
-
+    
     chrome.storage.sync.set(items, () => {
         console.log(items, '저장 되었습니다.');
     });
+}
+
+const getTypes = (callback, date) => {
+    chrome.storage.sync.get('types', (items) => {
+        document.getElementById('loading').style.display = 'block';
+
+        types = items['types'] || getInitTypes();
+
+        console.log(types, items['types']);
+
+        document.getElementById('type-selection').innerHTML = '';
+        document.getElementById('type-selection').appendChild(createSelection(types, 'type'));
+
+        drawTypes();
+        drawFooterTypes();
+
+        callback(date);
+
+        document.getElementById('loading').style.display = 'none';
+    })
+}
+
+const setTypes = () => {
+    let items = {types};
+
+    chrome.storage.sync.set(items, () => {
+        console.log(items, '저장 되었습니다.');
+    });   
 }
 
 const drawDate = (left) => {
@@ -63,7 +91,7 @@ const drawBox = () => {
                     newTime.setAttribute('end-time', currentEndTime);
 
                     if(currentType != 0){
-                        newTime.style.background = arr[currentType][1];
+                        newTime.style.background = (types[currentType]||types[0])[1];
                         newTime.style.width = `${16*(currentEndTime-currentStartTime) + 6*(currentEndTime-currentStartTime-1)}px`;
                     }
 
@@ -85,7 +113,7 @@ const drawBox = () => {
                 newTime.setAttribute('end-time', currentEndTime);
 
                 if(currentType !== 0){
-                    newTime.style.background = arr[currentType][1];
+                    newTime.style.background = types[currentType][1];
                     newTime.style.width = `${16*(currentEndTime-currentStartTime) + 6*(currentEndTime-currentStartTime-1)}px`;
                 }
 
@@ -94,6 +122,105 @@ const drawBox = () => {
         }
     }
 };
+
+const drawTypes = () => {
+    const bodyContainer = createElement('div', 'settings-body-container');
+
+    for(let i = 0; i < types.length; i++){
+        if(types[i][2]){
+            const bodyElement = createElement('div', 'settings-body-element');
+            
+            const bodyBox = createElement('div', 'settings-body-box');
+            bodyBox.style.backgroundColor = types[i][1];
+            
+            const bodyBoxTextContainer = createElement('div', 'settings-body-box-text-container');
+    
+            const bodyBoxText = createElement('span', 'settings-body-box-text',types[i][0]);
+    
+            bodyBoxTextContainer.appendChild(bodyBoxText);
+    
+            bodyElement.appendChild(bodyBox);
+            bodyElement.appendChild(bodyBoxTextContainer);
+    
+            if(i !== 0){
+                const removeButton = createElement('button', 'settings-remove-button');
+
+                const removeButtonImg = createElement('img');
+                removeButtonImg.src = "./images/black-remove-button.png";
+
+                removeButton.appendChild(removeButtonImg);
+
+                removeButton.setAttribute('data', i);
+    
+                removeButton.addEventListener('click', (event) => {
+                    if(confirm('정말 삭제하시겠습니까?')){
+                        let index = event.target.getAttribute('data') || event.target.parentNode.getAttribute('data') * 1;
+                        types[index][2] = 0;
+                        
+                        setTypes();
+    
+                        drawTypes();
+                        drawFooterTypes();
+                    }
+                });
+    
+                bodyElement.appendChild(removeButton);
+            }
+    
+            bodyContainer.appendChild(bodyElement);
+        }
+    }
+    
+    const bodyPlusContainer = createElement('div', 'settings-body-plus-container');
+
+    bodyPlusContainer.addEventListener('click', (event) => {
+        document.getElementById('typeName').value = '';
+        document.getElementById('colorPicker').value = '#000000';
+        document.getElementById('colorPicker').style.borderRight = '30px solid #000000';
+
+        elements.typesModalButtons[0].classList.remove('hide');
+        elements.typesModal.classList.remove('hide');
+    });
+
+    const bodyPlusImage = createElement('div', 'settings-plus-button', '<img src="./images/black-plus-button.jpg" />');
+    const bodyPlusTextContainer = createElement('div', 'settings-plus-button-text-container');
+    const bodyPlusText = createElement('span', 'settings-plus-button-text', '추가하기');
+
+    bodyPlusTextContainer.appendChild(bodyPlusText);
+    
+    bodyPlusContainer.appendChild(bodyPlusImage);
+    bodyPlusContainer.appendChild(bodyPlusTextContainer);
+
+    bodyContainer.appendChild(bodyPlusContainer);
+    document.getElementById('settings-modal-body').innerHTML = '';
+    document.getElementById('settings-modal-body').appendChild(bodyContainer);
+}
+
+const drawFooterTypes = () => {
+    const footerContainer = document.getElementById('footer-container');
+    footerContainer.innerHTML = '';
+
+    for(let i = 0; i < types.length; i++){
+        if(types[i][2]){
+            const footerElement = createElement('div', 'footer-element');
+    
+            const boxContainer = createElement('div', 'box-container');
+            const box = createElement('div', 'box');
+            box.style.backgroundColor = types[i][1];
+    
+            const boxtTextContainer = createElement('div', 'box-text-container');
+            const boxText = createElement('span', 'box-text', types[i][0]);
+    
+            boxContainer.appendChild(box);
+            boxtTextContainer.appendChild(boxText);
+    
+            footerElement.appendChild(boxContainer);
+            footerElement.appendChild(boxtTextContainer);
+    
+            footerContainer.appendChild(footerElement);
+        }
+    }
+}
 
 const removeSelectedBox = (currentDay) => {
     const startTime = selectedBox.getAttribute('start-time') * 1;
@@ -249,25 +376,7 @@ const app = () => {
 
     const initFooter = () => {
         const footerContainer = createElement('div', 'footer-container');
-
-        for(let i = 0; i < arr.length; i++){
-            const footerElement = createElement('div', 'footer-element');
-
-            const boxContainer = createElement('div', 'box-container');
-            const box = createElement('div', 'box');
-            box.style.backgroundColor = arr[i][1];
-    
-            const boxtTextContainer = createElement('div', 'box-text-container');
-            const boxText = createElement('span', 'box-text', arr[i][0]);
-    
-            boxContainer.appendChild(box);
-            boxtTextContainer.appendChild(boxText);
-    
-            footerElement.appendChild(boxContainer);
-            footerElement.appendChild(boxtTextContainer);
-    
-            footerContainer.appendChild(footerElement);
-        }
+        footerContainer.id = 'footer-container';
 
         return footerContainer;
     }
@@ -275,14 +384,23 @@ const app = () => {
     target.appendChild(initHeader(elements));
     target.appendChild(initBody(elements));
 
-    getData(DATE);
+    // getData(DATE);
 
     target.appendChild(initFooter(elements));
 
-    elements.settingsModal = initSettingsModal(arr);
+    elements.settingsModal = initSettingsModal(types);
     target.appendChild(elements.settingsModal);
 
-    const {timeModalHeaderText, timeModal, timeModalButtons} = initTimeModal(arr);
+    getTypes(getData, DATE);
+
+    const {typesModal, typesModalButtons, typesModalHeaderText} = initTypesModal();
+    elements.typesModal = typesModal;
+    elements.typesModalButtons = typesModalButtons;
+    target.appendChild(elements.typesModal);
+
+    initColorPicker();
+
+    const {timeModalHeaderText, timeModal, timeModalButtons} = initTimeModal(types);
     elements.timeModalHeader = timeModalHeaderText;
     elements.timeModal = timeModal;
     elements.timeModalButtons = timeModalButtons;
@@ -293,16 +411,13 @@ const app = () => {
 let today = new Date();
 let thisWeek = getWeek();
 
-// let data;
 let DATE = `${today.getFullYear()}.${thisWeek[0]}`;
 let data;
-// getData();
-// getData(`${today.getFullYear()}${thisWeek[0]}`);
 
 let selectedWeek;
 let selectedBox;
 
 const elements = {};
-const arr = [['기본', '#ebedf0'], ['공부', '#9be9a8'], ['게임', '#87CEFA'], ['운동', '#BA55D3']];
+let types;
 
 app();

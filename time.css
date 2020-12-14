@@ -16,6 +16,13 @@
     box-sizing: border-box;
 }
 
+.type-selection-container{
+    box-sizing: border-box;
+
+    height: 50px;
+    position: relative;
+}
+
 .start-time,
 .end-time,
 .type{
