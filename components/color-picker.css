@@ -1,0 +1,37 @@
+.color-palette {
+  height: 100px;
+  width: 100px;
+  background: red;
+}
+
+.palette {
+  margin-top: 5px;
+  width: 264px;
+  height: 216px;
+
+  background: #ffffff;
+  border: 1px solid #bcbcbc;
+  border-radius: 1px;
+  display: none;
+  padding: 1px;
+  position: absolute;
+  z-index: 1000;
+}
+
+.color-option {
+  box-sizing: border-box;
+
+  width: 18px;
+  height: 18px;
+  margin: 3px;
+  cursor:pointer;
+  float: left;
+
+  border:1px solid #DDD;
+  box-shadow: 0 0 0 1px rgba(27,31,35,.04);
+  border-radius: 2px;
+}
+
+#colorPalette{
+  display: block;
+}
