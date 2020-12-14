@@ -1,10 +1,14 @@
 const getData = (date) => {
     chrome.storage.sync.get(date, (items) => {
+        document.getElementById('loading').style.display = 'block';
+
         data = items[date] || getInitData();
 
         console.log(date, items[date]);
 
         drawBox();
+
+        document.getElementById('loading').style.display = 'none';
     })
 };
 
