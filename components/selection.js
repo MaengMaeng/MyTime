@@ -1,3 +1,12 @@
+const resetSelection = () => {
+    document.getElementById('default-div').innerHTML = '<span>분류를 선택해주세요.</span>';
+
+    let options = document.getElementById('type-selection').getElementsByClassName('option');
+    for(let i = 0; i < options.length; i++){
+        options[i].classList.remove('selected');
+    }
+}
+
 const createSelection = (arr, id) => {
     const selectionDiv = createElement('div', 'selection');
 
@@ -8,6 +17,8 @@ const createSelection = (arr, id) => {
     const selectedDiv = createElement('div', 'selected-div');
 
     const defaultDiv = createElement('div', 'default-div', '<span>분류를 선택해주세요.</span>');
+    defaultDiv.id = 'default-div';
+
     const selectionImg = createElement('img', 'selection-img');
     selectionImg.src = '../images/black-down-button.png'
 
