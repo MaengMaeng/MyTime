@@ -1,3 +1,19 @@
+const resetTimeModal = () => {
+    document.getElementById('start-time').value = '';
+    document.getElementById('end-time').value = '';
+    document.getElementById('type').value = '';
+    document.getElementById('contents').value = '';
+    
+    resetSelection();
+}
+
+const hideTimeModal = () => {
+    elements.timeModalButtons[0].classList.add('hide');
+    elements.timeModalButtons[1].classList.add('hide');
+    elements.timeModalButtons[2].classList.add('hide');
+    document.getElementById('time-modal').classList.add('hide');
+}
+
 const initTimeModal = (arr) => {
     const [timeModal, timeModalBody, timeModalButtons, timeModalHeaderText] = createModal('일정 추가', ['확인', '수정', '삭제', '취소'], '500px', '400px');
     timeModal.id = 'time-modal';
@@ -81,13 +97,8 @@ const initTimeModal = (arr) => {
                 setData();
                 drawBox();
 
-                document.getElementById('start-time').value = '';
-                document.getElementById('end-time').value = '';
-                document.getElementById('type').value = '';
-                document.getElementById('contents').value = '';
-                
-                timeModalButtons[0].classList.add('hide');
-                timeModal.classList.add('hide');
+                resetTimeModal();
+                hideTimeModal();
             }
             else{
                 alert('전부 입력해주세요.');
@@ -117,14 +128,8 @@ const initTimeModal = (arr) => {
                 setData();
                 drawBox();
 
-                document.getElementById('start-time').value = '';
-                document.getElementById('end-time').value = '';
-                document.getElementById('type').value = '';
-                document.getElementById('contents').value = '';
-                
-                timeModalButtons[1].classList.add('hide');
-                timeModalButtons[2].classList.add('hide');
-                timeModal.classList.add('hide');
+                resetTimeModal();
+                hideTimeModal();
             }
             else{
                 alert('전부 입력해주세요.');
@@ -140,14 +145,8 @@ const initTimeModal = (arr) => {
             setData();
             drawBox();
 
-            document.getElementById('start-time').value = '';
-            document.getElementById('end-time').value = '';
-            document.getElementById('type').value = '';
-            document.getElementById('contents').value = '';
-            
-            timeModalButtons[1].classList.add('hide');
-            timeModalButtons[2].classList.add('hide');
-            timeModal.classList.add('hide');
+            resetTimeModal();
+            hideTimeModal();
         }
     }); 
 
@@ -157,10 +156,8 @@ const initTimeModal = (arr) => {
         document.getElementById('type').value = '';
         document.getElementById('contents').value = '';
 
-        timeModalButtons[0].classList.add('hide');
-        timeModalButtons[1].classList.add('hide');
-        timeModalButtons[2].classList.add('hide');
-        timeModal.classList.add('hide');
+        resetTimeModal();
+        hideTimeModal();
     }); 
     
     return {timeModal, timeModalButtons, timeModalHeaderText};
