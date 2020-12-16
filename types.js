@@ -1,5 +1,5 @@
 const initTypesModal = () => {
-    const [typesModal, typesModalBody, typesModalButtons, typesModalHeaderText] = createModal('일정 추가', ['확인', '수정', '취소'], '500px', '400px');
+    const [typesModal, typesModalBody, typesModalButtons, typesModalHeaderText] = createModal('분류 추가', ['확인', '수정', '취소'], '500px', '400px');
     typesModal.id = 'types-modal';
 
     typesModalButtons[0].classList.add('hide');
