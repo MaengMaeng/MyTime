@@ -49,24 +49,32 @@ const setTypes = () => {
     });   
 }
 
-const drawDate = (left) => {
-    if(left){
-        today.setDate(today.getDate() - 7);
+const drawDate = (direction) => {
+    if(direction == -1){
+        standardDate.setDate(standardDate.getDate() - 7);
     }
-    else{
-        today.setDate(today.getDate() + 7);
+    else if(direction == 1){
+        standardDate.setDate(standardDate.getDate() + 7);
     }
     
-    thisWeek = getWeek(today);
-    DATE = `${today.getFullYear()}.${thisWeek[0]}`
+    let today = getToday();
 
-    elements.year.innerHTML = today.getFullYear();
+    thisWeek = getWeek(standardDate);
+    DATE = `${standardDate.getFullYear()}.${thisWeek[0]}`
+
+    elements.year.innerHTML = standardDate.getFullYear();
     elements.startWeek.innerHTML = thisWeek[0];
     elements.endWeek.innerHTML = thisWeek[6];
 
     let dateText = document.getElementsByClassName('date-text');
     for(let i = 0; i < dateText.length; i++){
         dateText[i].innerHTML = thisWeek[i];
+        dateText[i].parentNode.parentNode.classList.remove('today');
+
+        console.log(`${standardDate.getFullYear()}.${thisWeek[i]}`, today);
+        if(`${standardDate.getFullYear()}.${thisWeek[i]}` == today){
+            dateText[i].parentNode.parentNode.classList.add('today');
+        }
     }
 }
 
@@ -271,7 +279,7 @@ const app = () => {
         const prevButton = createElement('button', 'prev-button', '◀');
         elements.prevButton = prevButton;
         prevButton.addEventListener('click', (event) => {
-            drawDate(true);
+            drawDate(-1);
             getData(DATE);
             // drawBox();
         });
@@ -279,7 +287,7 @@ const app = () => {
         const nextButton = createElement('button', 'next-button', '▶');
         elements.nextButton = nextButton;
         nextButton.addEventListener('click', (event) => {
-            drawDate(false);
+            drawDate(1);
             getData(DATE);
             // drawBox();
         });
@@ -330,7 +338,8 @@ const app = () => {
 
             const dayOfTheWeekText = createElement('div', i === 0 ? 'sun' : i === 6 ? 'sat' : null, dayOfTheWeek[i]);
 
-            const dateText = createElement('div', 'date-text', thisWeek[i]);
+            // const dateText = createElement('div', 'date-text', thisWeek[i]);
+            const dateText = createElement('div', 'date-text');
 
             dayOfTheWeekContainer.appendChild(dayOfTheWeekText);
             dayOfTheWeekContainer.appendChild(dateText);
@@ -439,6 +448,7 @@ const app = () => {
     target.appendChild(initHeader(elements));
     target.appendChild(initBody(elements));
 
+    drawDate(0);
     // getData(DATE);
 
     target.appendChild(initFooter(elements));
@@ -463,10 +473,10 @@ const app = () => {
     target.appendChild(elements.timeModal);
 }
 
-let today = new Date();
+let standardDate = new Date();
 let thisWeek = getWeek();
 
-let DATE = `${today.getFullYear()}.${thisWeek[0]}`;
+let DATE = `${standardDate.getFullYear()}.${thisWeek[0]}`;
 let data;
 
 let selectedWeek;

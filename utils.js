@@ -20,6 +20,12 @@ const createElement = (tagName, className, text) => {
 
 const prefix = (str) => str.length === 1 ? `0${str}` : str;
 
+const getToday = () => {
+    let date = new Date();
+
+    return `${date.getFullYear()}.${prefix(date.getMonth() + 1)}.${prefix(date.getDate())}`;
+}
+
 const getWeek = (date = new Date()) => {
     date.setDate(date.getDate() - date.getDay());
 
