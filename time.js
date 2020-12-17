@@ -156,6 +156,8 @@ const initTimeModal = (arr) => {
         document.getElementById('type').value = '';
         document.getElementById('contents').value = '';
 
+        drawBox();
+
         resetTimeModal();
         hideTimeModal();
     }); 

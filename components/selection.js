@@ -1,9 +1,25 @@
 const resetSelection = () => {
     document.getElementById('default-div').innerHTML = '<span>분류를 선택해주세요.</span>';
+    document.getElementById('type').value = '';
 
     let options = document.getElementById('type-selection').getElementsByClassName('option');
     for(let i = 0; i < options.length; i++){
         options[i].classList.remove('selected');
+    }
+}
+
+const selectSelection = (type) => {
+    if(type){
+        let options = document.getElementById('type-selection').getElementsByClassName('option');
+    
+        document.getElementById('type').value = type;
+        for(let i = 0; i < options.length; i++){
+            if(options[i].getAttribute('data') == type){
+                document.getElementById('default-div').innerHTML = options[i].innerHTML;
+                options[i].classList.add('selected');
+                break;
+            }
+        }
     }
 }
 
@@ -46,7 +62,8 @@ const createSelection = (arr, id) => {
             const option = createElement('div', 'option');
             options.push(option);
             option.classList.add('hide');
-    
+            option.setAttribute('data', i);
+
             const optionBox = createElement('div', 'option-box');
             optionBox.style.backgroundColor = arr[i][1];
             
