@@ -1,9 +1,20 @@
 const resetSelection = () => {
     document.getElementById('default-div').innerHTML = '<span>분류를 선택해주세요.</span>';
+    document.getElementById('type').value = '';
 
     let options = document.getElementById('type-selection').getElementsByClassName('option');
     for(let i = 0; i < options.length; i++){
         options[i].classList.remove('selected');
+    }
+}
+
+const selectSelection = (type) => {
+    if(type){
+        let options = document.getElementById('type-selection').getElementsByClassName('option');
+    
+        document.getElementById('type').value = type;
+        document.getElementById('default-div').innerHTML = options[type - 1].innerHTML;
+        options[type - 1].classList.add('selected');
     }
 }
 

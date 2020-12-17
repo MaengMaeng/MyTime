@@ -203,7 +203,27 @@ const drawFooterTypes = () => {
     for(let i = 0; i < types.length; i++){
         if(types[i][2]){
             const footerElement = createElement('div', 'footer-element');
-    
+            footerElement.setAttribute('data', i);
+
+            footerElement.addEventListener('click', (event) => {
+                let node = event.target;
+
+                let footerElements = document.getElementsByClassName('footer-element');
+                
+                while(!node.classList.contains('footer-element')){
+                    node = node.parentNode;
+                }
+                for(let i = 0; i < footerElements.length; i++){
+                    if(node == footerElements[i]){
+                        selectedType = footerElements[i].classList.contains('selected') ? 0 :  (node.getAttribute('data') * 1);
+                        footerElements[i].classList.toggle('selected');
+                    }
+                    else{
+                        footerElements[i].classList.remove('selected');
+                    }
+                }
+            });
+
             const boxContainer = createElement('div', 'box-container');
             const box = createElement('div', 'box');
             box.style.backgroundColor = types[i][1];
@@ -353,7 +373,42 @@ const app = () => {
                     }
                 }
             })
+
             
+            timeContainer.addEventListener('dragstart', (event) => {
+                if(event.target.classList.contains('time')){
+                    selectedWeek = event.target.parentNode;
+                    selectedBox = event.target;
+
+                    dragStart = event.target.getAttribute('start-time') * 1;
+                    dragEnd = dragStart + 1;
+                    event.target.style.background = types[selectedType][1];
+                }
+            });
+
+            timeContainer.addEventListener('dragover', (event) => {
+                if(event.target.classList.contains('time')){
+                    if(selectedWeek == event.target.parentNode){
+                        if(event.target.getAttribute('type') == 0 && event.target.getAttribute('start-time') == dragEnd){
+                            dragEnd++;
+                            selectedBox.style.width = `${16*(dragEnd-dragStart) + 6*(dragEnd-dragStart-1)}px`;
+                            event.target.style.display = 'none';
+                        }
+                    }
+                }
+            });
+
+            timeContainer.addEventListener('dragend', (event) => {
+                document.getElementById('start-time').value = dragStart;
+                document.getElementById('end-time').value = dragEnd;
+
+                selectSelection(selectedType);
+
+                elements.timeModalHeader.innerHTML = '일정 추가';
+                elements.timeModalButtons[0].classList.remove('hide');
+                elements.timeModal.classList.remove('hide');
+            });
+
             const hourDividerContainer = createElement('div', 'hour-divider-container')
             
             for(let j = 0; j <= 24; j++){
@@ -416,6 +471,10 @@ let data;
 
 let selectedWeek;
 let selectedBox;
+let selectedType = 0;
+
+let dragStart;
+let dragEnd;
 
 const elements = {};
 let types;
