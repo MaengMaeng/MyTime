@@ -24,11 +24,28 @@
     cursor: pointer;
 }
 
+.settings-box-and-text{
+    display: flex;
+    align-items: center;
+
+    height: 30px;
+
+    margin: 0 1px 0 4px;
+}
+
+.settings-body-element:nth-child(n+2) > .settings-box-and-text:hover{
+    border: 1px solid #bbb;
+    border-radius: 4px;
+
+    margin: 0 0 0 3px;
+
+    cursor: pointer;
+}
+
 .settings-body-box{
     width: 18px;
     height: 18px;
-    margin: 0px 2px 0px 2px;
-    margin-left: 8px;
+    margin-left: 4px;
     background-color: #ebedf0;
     border:1px solid #DDD;
     box-shadow: 0 0 0 1px rgba(27,31,35,.04);

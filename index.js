@@ -138,6 +138,20 @@ const drawTypes = () => {
         if(types[i][2]){
             const bodyElement = createElement('div', 'settings-body-element');
             
+            const boxAndText = createElement('div', 'settings-box-and-text');
+
+            i != 0 && boxAndText.addEventListener('click', (event) => {
+                document.getElementById('typeName').value = types[i][0];
+                document.getElementById('colorPicker').value = types[i][1];
+                document.getElementById('colorPicker').style.borderRight = `30px solid ${types[i][1]}`;
+        
+                selectedType = i;
+                elements.typesModalHeaderText.innerHTML = '분류 수정';
+
+                elements.typesModalButtons[1].classList.remove('hide');
+                elements.typesModal.classList.remove('hide');
+            });
+
             const bodyBox = createElement('div', 'settings-body-box');
             bodyBox.style.backgroundColor = types[i][1];
             
@@ -147,9 +161,11 @@ const drawTypes = () => {
     
             bodyBoxTextContainer.appendChild(bodyBoxText);
     
-            bodyElement.appendChild(bodyBox);
-            bodyElement.appendChild(bodyBoxTextContainer);
+            boxAndText.appendChild(bodyBox);
+            boxAndText.appendChild(bodyBoxTextContainer);
     
+            bodyElement.appendChild(boxAndText);
+
             if(i !== 0){
                 const removeButton = createElement('button', 'settings-remove-button');
 
@@ -186,6 +202,7 @@ const drawTypes = () => {
         document.getElementById('colorPicker').value = '#000000';
         document.getElementById('colorPicker').style.borderRight = '30px solid #000000';
 
+        elements.typesModalHeaderText.innerHTML = '분류 추가';
         elements.typesModalButtons[0].classList.remove('hide');
         elements.typesModal.classList.remove('hide');
     });
@@ -356,7 +373,6 @@ const app = () => {
                     if(event.target.getAttribute('type') == 0){
                         //기본 박스
                         document.getElementById('start-time').value = event.target.getAttribute('start-time') * 1;
-                        document.getElementById('start-time').readOnly = true;
 
                         elements.timeModalHeader.innerHTML = '일정 추가';
                         elements.timeModalButtons[0].classList.remove('hide');
@@ -376,6 +392,7 @@ const app = () => {
 
                         elements.timeModalHeader.innerHTML = '일정 수정';
                         document.getElementById('start-time').value = index;
+                        selectSelection(selectedBox.getAttribute('type'));
                         document.getElementById('end-time').value = event.target.getAttribute('end-time') * 1;
                         document.getElementById('type').value = currentData.type;
                         document.getElementById('contents').value = currentData.contents;
@@ -461,6 +478,7 @@ const app = () => {
     const {typesModal, typesModalButtons, typesModalHeaderText} = initTypesModal();
     elements.typesModal = typesModal;
     elements.typesModalButtons = typesModalButtons;
+    elements.typesModalHeaderText = typesModalHeaderText;
     target.appendChild(elements.typesModal);
 
     initColorPicker();

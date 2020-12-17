@@ -61,7 +61,20 @@ const initTypesModal = () => {
     });
 
     typesModalButtons[1].addEventListener('click', () => {
+        let name = document.getElementById('typeName').value;
+        let color = document.getElementById('colorPicker').value;
+        types[selectedType] = [name, color, 1];
+    
+        setTypes();
+        
+        document.getElementById('type-selection').innerHTML = '';
+        document.getElementById('type-selection').appendChild(createSelection(types, 'type'));
+        
+        drawBox();
+        drawTypes();
+        drawFooterTypes();
 
+        elements.typesModal.classList.add('hide');
     });
 
     typesModalButtons[2].addEventListener('click', () => {
