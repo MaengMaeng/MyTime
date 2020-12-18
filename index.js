@@ -314,7 +314,7 @@ const app = () => {
         const startWeek = createElement('span', 'start-week', thisWeek[0]);
         elements.startWeek = startWeek;
 
-        const divider = createElement('span', null, '~');
+        const divider = createElement('span', null, ' ~ ');
 
         const endWeek = createElement('span', 'end-week', thisWeek[6]);
         elements.endWeek = endWeek;
