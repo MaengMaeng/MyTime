@@ -170,7 +170,7 @@ const drawTypes = () => {
                 const removeButton = createElement('button', 'settings-remove-button');
 
                 const removeButtonImg = createElement('img');
-                removeButtonImg.src = "./images/black-remove-button.png";
+                removeButtonImg.src = SETTINGS_REMOVE_BUTTON;
 
                 removeButton.appendChild(removeButtonImg);
 
@@ -207,7 +207,7 @@ const drawTypes = () => {
         elements.typesModal.classList.remove('hide');
     });
 
-    const bodyPlusImage = createElement('div', 'settings-plus-button', '<img src="./images/black-plus-button.jpg" />');
+    const bodyPlusImage = createElement('div', 'settings-plus-button', `<img src="${SETTINGS_PLUS_BUTTON}" />`);
     const bodyPlusTextContainer = createElement('div', 'settings-plus-button-text-container');
     const bodyPlusText = createElement('span', 'settings-plus-button-text', '추가하기');
 
@@ -329,7 +329,7 @@ const app = () => {
     
         const settingsContainer = createElement('div', 'settings-container');
 
-        const settingsButton = createElement('button', 'settings-button', '<img src="./images/black-settings-button.png" />');
+        const settingsButton = createElement('button', 'settings-button', `<img src="${SETTINGS_BUTTON}" />`);
         elements.settingsButton = settingsButton;
 
         settingsButton.addEventListener('click', () => {
