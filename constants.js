@@ -19,3 +19,7 @@ const getInitData = () => {
 const getInitTypes = () => {
     return [['기본', '#ebedf0', 1], ['공부', '#9be9a8', 1], ['게임', '#87CEFA', 1], ['운동', '#BA55D3', 1]];
 }
+
+const SETTINGS_BUTTON = './images/grey-settings-button.png';
+const SETTINGS_PLUS_BUTTON = './images/grey-plus-button3.png';
+const SETTINGS_REMOVE_BUTTON = './images/grey-remove-button3.png';
